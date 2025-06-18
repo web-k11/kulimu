@@ -159,6 +159,16 @@ body {
   color: rgba(144, 163, 96, 0.18);
   text-shadow: 0 0 5px rgba(124, 140, 83, 0.1);
 }
+  /* --- 針對手機等較小螢幕的調整 --- */
+@media (max-width: 768px) {
+  .floating-thing {
+    /* 手機版字體大小，這是關鍵的調整，會比電腦版小 */
+    font-size: 0.8rem; /* 從 1rem 再縮小到 0.8rem，確保它在手機上夠小 */
+    opacity: 0.15; /* 手機上整體不透明度再降更低 */
+    color: rgba(144, 163, 96, 0.08); /* 手機上顏色透明度再降更低 */
+    text-shadow: 0 0 5px rgba(124, 140, 83, 0.03); /* 手機上陰影透明度再降更低 */
+  }
+
 
 @keyframes float {
   0%, 100% {
