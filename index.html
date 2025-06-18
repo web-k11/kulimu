@@ -159,7 +159,14 @@ body {
   color: rgba(144, 163, 96, 0.18);
   text-shadow: 0 0 5px rgba(124, 140, 83, 0.1);
 }
-
+@media (max-width: 768px) {
+  .floating-thing {
+    font-size: 0.8rem; /* **手機上字體更小**，讓它在小螢幕上更不顯眼 */
+    opacity: 0.15; /* **手機上大幅降低整體不透明度** */
+    color: rgba(144, 163, 96, 0.08); /* **手機上降低顏色透明度** */
+    text-shadow: 0 0 5px rgba(124, 140, 83, 0.03); /* **手機上降低陰影透明度** */
+  }
+  
 @keyframes float {
   0%, 100% {
     transform: translateY(0) translateX(0) rotate(0deg);
