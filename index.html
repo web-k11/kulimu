@@ -131,7 +131,7 @@ orange: {
 }
 </script>
 <style>
-/* 背景顏色 */
+/* 舊的不要用 因為背景顏色在手機上無法應用 */
 /*body {
   background: linear-gradient(135deg, #c5cdc2 0%, #6d7b67 100%);
   min-height: 100vh;
@@ -139,7 +139,7 @@ orange: {
   position: relative;
   overflow-x: hidden;
 } */
-
+/* 背景顏色 */
   body::before { 
   content: '';
   position: fixed;
@@ -147,7 +147,7 @@ orange: {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #c5cdc2 0%, #6d7b67 100%);
+  background: linear-gradient(135deg, #c5cdc2 0%, #6d7b67 50%, #6d7b67 100%);
   z-index: -10;
 }
 
