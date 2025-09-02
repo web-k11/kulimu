@@ -342,7 +342,7 @@ body {
   color: white;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   z-index: 50;
-  transition: all 0.07s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; /* 改善過渡效果 */
 }
 
 /* 滑鼠滑到按鈕上方時的樣式 (Hover 效果) */
@@ -358,7 +358,14 @@ body {
   box-shadow: 0 5px 10px -2px rgba(68, 143, 175, 0.4), 0 2px 4px -1px rgba(68, 143, 175, 0.2); /* 陰影縮小，模擬按壓感 */
   transform: translateY(0); /* 回到原位，或輕微下壓 */
 }
-.back-to-top.hidden {
+  
+/* 確保點擊後鬆開，按鈕能穩定恢復到初始狀態 */
+.back-to-top:not(:hover):not(:active) {
+  background-color: rgba(109, 123, 103, 0.6);
+  transform: translateY(0);
+  
+  
+  .back-to-top.hidden {
   opacity: 0;
   transform: translateY(2.5rem);
   pointer-events: none;
@@ -1307,6 +1314,7 @@ function getLanguageClass(language) {
 </script>
 </body>
 </html>
+
 
 
 
