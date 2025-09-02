@@ -684,10 +684,13 @@ function setupEventListeners() {
       top: 0,
       behavior: 'smooth'
     });
-  // 強制移除按鈕的焦點，讓它恢復初始狀態
+  // 確保移除焦點
   backToTop.blur(); 
-  setTimeout(() => {
- }, 10); // 短暫延遲 10 毫秒
+  
+  // 強制重設背景顏色，解決手機瀏覽器樣式凍結問題
+  backToTop.style.backgroundColor = 'rgba(109, 123, 103, 0.6)'; 
+
+ 
 });
 
   // 監聽滾動事件
