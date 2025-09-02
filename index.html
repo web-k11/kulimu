@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -9,7 +7,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
 <link rel="manifest" href="./site.webmanifest">
-  
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>愛了</title>
@@ -113,7 +111,7 @@ orange: {
           900: "#831843",
           950: "#500724",
         },
-       
+
         cream: {
           50: "#fffdf5",
           100: "#fff9e0",
@@ -132,16 +130,16 @@ orange: {
 }
 </script>
 <style>
-  
+
 /* 會影響字體 */
 body {
   min-height: 100vh;
   font-family: 'Noto Sans TC', sans-serif;
   position: relative;
   overflow-x: hidden;
-} 
+}
 /* 背景顏色 */
-  body::before { 
+  body::before {
   content: '';
   position: fixed; /* 固定背景顏色不會因為內容變動 */
   top: 0;
@@ -177,7 +175,7 @@ body {
   animation: float 20s infinite ease-in-out;
   color: rgba(144, 163, 96, 1);
   text-shadow: 0 0 5px rgba(124, 140, 83, 0.1);
-}  
+}
 @keyframes float {
   0%, 100% {
     transform: translateY(0) translateX(0) rotate(0deg);
@@ -327,7 +325,7 @@ body {
 .song-card:hover {
   transform: translateY(-4px);
   box-shadow:
-  0 10px 5px -3px rgba(0, 0, 0, 0.17), 
+  0 10px 5px -3px rgba(0, 0, 0, 0.17),
   0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
@@ -423,11 +421,11 @@ body {
 
 .clear-button.disabled {
   opacity: 0.5;
-  background-color: rgba(235, 235, 235, 0.5); 
-  color: rgba(172, 172, 172, 0.7); 
+  background-color: rgba(235, 235, 235, 0.5);
+  color: rgba(172, 172, 172, 0.7);
   cursor: not-allowed; /* 提示用戶不可點擊 */
 }
-.clear-button.disabled:hover { 
+.clear-button.disabled:hover {
   opacity: 0.5;
   background-color: rgba(235, 235, 235, 0.5);
   color: rgba(172, 172, 172, 0.7);
@@ -626,7 +624,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function createFloatingElements() {
   const numElements = 15;
   const numThings = 10; // 增加漂浮的數量
-  
+
   // 創建基本圓形元素
   for (let i = 0; i < numElements; i++) {
     const element = document.createElement('div');
@@ -635,7 +633,7 @@ function createFloatingElements() {
     const top = Math.random() * 100; // 0% to 100%
     const delay = Math.random() * 5; // 0s to 5s
     const duration = Math.random() * 10 + 10; // 10s to 20s
-    
+
     element.className = 'floating-item';
     element.style.width = `${size}px`;
     element.style.height = `${size}px`;
@@ -644,10 +642,10 @@ function createFloatingElements() {
     element.style.animationDelay = `${delay}s`;
     element.style.animationDuration = `${duration}s`;
     element.style.opacity = Math.random() * 0.5 + 0.1; // 0.1 to 0.6
-    
+
     floatingBg.appendChild(element);
   }
-  
+
   // 創建漂浮圖形元素
   for (let i = 0; i < numThings; i++) {
     const element = document.createElement('div');
@@ -655,7 +653,7 @@ function createFloatingElements() {
     const top = Math.random() * 100; // 0% to 100%
     const delay = Math.random() * 5; // 0s to 5s
     const duration = Math.random() * 10 + 15; // 15s to 25s
-    
+
     element.className = 'floating-thing';
     element.textContent = '👑';
     element.style.left = `${left}%`;
@@ -663,7 +661,7 @@ function createFloatingElements() {
     element.style.animationDelay = `${delay}s`;
     element.style.animationDuration = `${duration}s`;
     element.style.fontSize = `${Math.random() * 1 + 1}rem`;
-    
+
     floatingBg.appendChild(element);
   }
 }
@@ -675,7 +673,7 @@ function setupEventListeners() {
     filterSongs();
     toggleSearchClearButton();
   });
-  
+
   // 搜索框清除按鈕
   searchClear.addEventListener('click', () => {
     searchInput.value = '';
@@ -693,29 +691,37 @@ function setupEventListeners() {
     }
   });
 
-
 // 回到頂部按鈕
 backToTop.addEventListener('click', (e) => {
   e.preventDefault();
-  
+
   // 1. 強制讓按鈕進入「重置」樣式，覆蓋所有 `:active` 狀態
-  //    您原本的 CSS 已經定義了這個 class，它使用 !important 來確保覆蓋效果
   backToTop.classList.add('back-to-top--reset');
 
-  // 2. 進行平滑滾動
+  // 2. 移除焦點，避免移動設備上的 :active 狀態持續存在
+  backToTop.blur();
+
+  // 3. 進行平滑滾動
   window.scrollTo({
     top: 0,
     behavior: 'smooth'
   });
 
-  // 3. 在滾動結束後，移除「重置」class，讓 CSS 樣式恢復正常
-  //    使用 setTimeout 來確保在平滑滾動完成後才執行
+  // 4. 在滾動結束後，移除「重置」class，讓 CSS 樣式恢復正常
   setTimeout(() => {
     backToTop.classList.remove('back-to-top--reset');
-  }, 500); // 這裡的延遲時間可以根據平滑滾動的長度微調
+
+    // 5. 額外確保移動設備上的狀態重置
+    backToTop.style.transform = '';
+    backToTop.style.backgroundColor = '';
+    backToTop.style.boxShadow = '';
+
+    // 6. 短暫延遲後完全重置內聯樣式
+    setTimeout(() => {
+      backToTop.removeAttribute('style');
+    }, 50);
+  }, 500);
 });
-
-
 
   // 監聽滾動事件
   window.addEventListener('scroll', () => {
@@ -725,8 +731,6 @@ backToTop.addEventListener('click', (e) => {
       backToTop.classList.add('hidden');
     }
   });
-
-
 
   // 重試按鈕
   retryButton.addEventListener('click', fetchSheetData);
@@ -749,28 +753,28 @@ async function fetchSheetData() {
   try {
     // 使用新的試算表ID
     const sheetId = '1sLi8ap9scV_iKPb_IiGLmP7kpKBk6lbyincsliUNYws';
-    
+
     // 使用Google Sheets API v4直接獲取數據
     // 注意：這需要試算表已設置為"任何人都可以查看"
     const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Sheet1?key=AIzaSyDFU1PsOmEKCZfnJkCi5-1kVMi6yk5aDtE`;
 
     const response = await fetch(apiUrl);
-    
+
     if (!response.ok) {
       // 嘗試使用備用方法
       return await fetchSheetDataAlternative(sheetId);
     }
 
     const data = await response.json();
-    
+
     if (!data.values || data.values.length <= 1) {
       throw new Error('No data found in spreadsheet');
     }
-    
+
     // 處理數據 - 將標題行與數據行結合成對象數組
     const headers = data.values[0];
     const rows = data.values.slice(1);
-    
+
     const processedData = rows.map(row => {
       const item = {};
       headers.forEach((header, index) => {
@@ -778,7 +782,7 @@ async function fetchSheetData() {
       });
       return item;
     });
-    
+
     processSheetData(processedData);
     hideLoading();
   } catch (err) {
@@ -793,7 +797,7 @@ async function fetchSheetDataAlternative(sheetId) {
   try {
     // 使用 OpenSheet API 作為備用
     const apiUrl = `https://opensheet.elk.sh/${sheetId}/Sheet1`;
-    
+
     const response = await fetch(apiUrl);
     if (!response.ok) {
       throw new Error('Network response was not ok');
@@ -804,16 +808,16 @@ async function fetchSheetDataAlternative(sheetId) {
     hideLoading();
   } catch (err) {
     console.error('Error fetching sheet data (alternative):', err);
-    
+
     // 最後嘗試使用 sheetdb.io
     try {
       const apiUrl = `https://sheetdb.io/api/v1/58f61be4dda40/${sheetId}`;
       const response = await fetch(apiUrl);
-      
+
       if (!response.ok) {
         throw new Error('All methods failed');
       }
-      
+
       const data = await response.json();
       processSheetData(data);
       hideLoading();
@@ -848,7 +852,7 @@ function processSheetData(data) {
   allSongs = data.map((row, index) => {
     const song = {
       id: index + 1,
-      title: (row.歌名 || row.title || row.Song || '').trim(), 
+      title: (row.歌名 || row.title || row.Song || '').trim(),
     artist: (row.歌手 || row.artist || row.Artist || '').trim(),
     language: (row.語言 || row.language || row.Language || '').trim(),
     category: (row.分類 || row.category || row.Category || '').trim(),
@@ -889,7 +893,7 @@ function processSheetData(data) {
 // 過濾歌曲
 function filterSongs() {
   const searchTerm = searchInput.value.toLowerCase();
-  
+
   filteredSongs = allSongs.filter(song => {
 // --- 關鍵修改點：在所有過濾條件的最前面，先檢查歌名是否存在 ---
     if (!song.title) { // 如果歌名是空值 (null, undefined, 或空字串 '')
@@ -1003,7 +1007,7 @@ function updateCategoryFilterUI() {
   sortedCategories.forEach(category => {
     // 獲取當前分類的歌曲數量
     const count = categoryCounts[category] || 0;
-    
+
     // 判斷按鈕是否應該被禁用 (disabled)
     const isDisabled = count === 0 && !selectedCategories.has(category);
 
@@ -1017,7 +1021,7 @@ function updateCategoryFilterUI() {
         : 'bg-morandi-green-100 hover:bg-morandi-green-200 text-morandi-green-700' // 正常樣式
       }
     `;
-    
+
     // 如果按鈕應該被禁用，則新增 disabled 屬性
     if (isDisabled) {
       button.disabled = true;
@@ -1058,7 +1062,7 @@ function updateSelectedCategoriesUI() {
     Array.from(selectedCategories).forEach(category => {
       const tag = document.createElement('div');
       tag.className = 'filter-tag bg-morandi-green-200 text-morandi-green-800 cursor-pointer text-xs px-2 py-1 rounded-full flex items-center border-0';
-      
+
       const span = document.createElement('span');
       span.textContent = category;
       tag.appendChild(span);
@@ -1068,13 +1072,13 @@ function updateSelectedCategoriesUI() {
       icon.setAttribute('fill', 'none');
       icon.setAttribute('viewBox', '0 0 24 24');
       icon.setAttribute('stroke', 'currentColor');
-      
+
       const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       path.setAttribute('stroke-linecap', 'round');
       path.setAttribute('stroke-linejoin', 'round');
       path.setAttribute('stroke-width', '2');
       path.setAttribute('d', 'M6 18L18 6M6 6l12 12');
-      
+
       icon.appendChild(path);
       tag.appendChild(icon);
 
@@ -1090,7 +1094,7 @@ function updateSelectedCategoriesUI() {
     emptyText.textContent = '尚未選擇任何分類';
     selectedCategoriesContainer.appendChild(emptyText);
   }
-  
+
   updateClearButtonState();
 }
 
@@ -1173,12 +1177,12 @@ function createSongCard(song) {
   if (song.notes) {
     const notes = document.createElement('p');
     notes.className = 'mt-1 text-xs text-morandi-grey-500 line-clamp-2';
-    
+
     const noteLabel = document.createElement('span');
     noteLabel.className = 'font-medium';
     noteLabel.textContent = '備註: ';
     notes.appendChild(noteLabel);
-    
+
     notes.appendChild(document.createTextNode(song.notes));
     card.appendChild(notes);
   }
@@ -1195,13 +1199,13 @@ function createSongCard(song) {
   copyIcon.setAttribute('fill', 'none');
   copyIcon.setAttribute('viewBox', '0 0 24 24');
   copyIcon.setAttribute('stroke', 'currentColor');
-  
+
   const copyPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
   copyPath.setAttribute('stroke-linecap', 'round');
   copyPath.setAttribute('stroke-linejoin', 'round');
   copyPath.setAttribute('stroke-width', '2');
   copyPath.setAttribute('d', 'M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z');
-  
+
   copyIcon.appendChild(copyPath);
   copyButton.appendChild(copyIcon);
 
@@ -1223,7 +1227,7 @@ function toggleCategory(category) {
   } else {
     selectedCategories.add(category);
   }
-  
+
   updateSelectedCategoriesUI();
   filterSongs();
 }
@@ -1244,14 +1248,14 @@ function copyToClipboard(text) {
     textArea.value = text;
     document.body.appendChild(textArea);
     textArea.select();
-    
+
     try {
       document.execCommand('copy');
       showToast();
     } catch (err) {
       console.error('Fallback: Copy command failed', err);
     }
-    
+
     document.body.removeChild(textArea);
   }
 }
@@ -1344,6 +1348,3 @@ function getLanguageClass(language) {
 </script>
 </body>
 </html>
-
-
-
