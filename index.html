@@ -678,13 +678,15 @@ function setupEventListeners() {
   });
 
   // 回到頂部按鈕
-  backToTop.addEventListener('click', () => {
+  backToTop.addEventListener('click', (e) => {
+    e.preventDefault();
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
-
-  });
+  // 強制移除按鈕的焦點，讓它恢復初始狀態
+  backToTop.blur(); 
+});
 
   // 監聽滾動事件
   window.addEventListener('scroll', () => {
@@ -1313,6 +1315,3 @@ function getLanguageClass(language) {
 </script>
 </body>
 </html>
-
-
-
