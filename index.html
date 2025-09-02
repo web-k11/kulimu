@@ -331,7 +331,6 @@ body {
   0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-/* 取消  
 /* 顏色-置頂按鈕 */
 .back-to-top {
   position: fixed;
@@ -339,11 +338,12 @@ body {
   right: 1.5rem;
   padding: 0.75rem;
   border-radius: 9999px;
-  background-color: rgba(109, 123, 103, 0.6); /* 初始半透明背景 */
+  background-color: rgba(109, 123, 103, 0.6);
   color: white;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   z-index: 50;
-  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; /* 改善過渡效果 */
+  /* 這裡使用 all 讓所有屬性都有過渡效果 */
+  transition: all 0.2s ease;
 }
 
 /* 滑鼠滑到按鈕上方時的樣式 (Hover 效果) */
@@ -360,13 +360,7 @@ body {
   transform: translateY(0);
 }
 
-/* 確保點擊後鬆開，按鈕能穩定恢復到初始狀態 */
-.back-to-top:not(:hover):not(:active) {
-  background-color: rgba(109, 123, 103, 0.6);
-  transform: translateY(0);
-} 取消 */
-
-
+/* 按鈕隱藏時的樣式 */
 .back-to-top.hidden {
   opacity: 0;
   transform: translateY(2.5rem);
@@ -689,10 +683,7 @@ function setupEventListeners() {
       top: 0,
       behavior: 'smooth'
     });
-    // 點擊後立即將按鈕樣式恢復為初始狀態
-    backToTop.style.backgroundColor = 'rgba(109, 123, 103, 0.6)';
-    backToTop.style.transform = 'translateY(0)';
-    backToTop.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
+
   });
 
   // 監聽滾動事件
