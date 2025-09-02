@@ -360,6 +360,22 @@ body {
   transform: translateY(0);
 }
 
+.back-to-top--reset {
+  /* 將這裡的樣式設定為你希望按壓後恢復的預設樣式 */
+  background-color: rgba(109, 123, 103, 0.6);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(0);
+}
+
+/* 確保這個類別的樣式可以覆蓋 :active 狀態 */
+/* 增加優先級 */
+.back-to-top.back-to-top--reset {
+  background-color: rgba(109, 123, 103, 0.6) !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+  transform: translateY(0) !important;
+}
+
+
 /* 按鈕隱藏時的樣式 */
 .back-to-top.hidden {
   opacity: 0;
@@ -678,20 +694,25 @@ function setupEventListeners() {
   });
 
   // 回到頂部按鈕
-  backToTop.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  // 確保移除焦點
+backToTop.addEventListener('click', (e) => {
+  e.preventDefault();
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+  
+  // 1. 立即移除焦點，這能解決大部分問題
   backToTop.blur(); 
   
-  // 強制重設背景顏色，解決手機瀏覽器樣式凍結問題
-  backToTop.style.backgroundColor = 'rgba(109, 123, 103, 0.6)'; 
-
- 
+  // 2. 在按鈕被點擊後，新增一個類別來強制重設樣式
+  backToTop.classList.add('back-to-top--reset');
+  
+  // 3. 在短暫延遲後，移除這個類別，讓 CSS 動畫和懸停效果恢復正常
+  setTimeout(() => {
+    backToTop.classList.remove('back-to-top--reset');
+  }, 100); // 100 毫秒的延遲足夠讓瀏覽器處理完按壓後的樣式
 });
+
 
   // 監聽滾動事件
   window.addEventListener('scroll', () => {
