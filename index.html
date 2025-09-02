@@ -356,8 +356,41 @@ body {
 .back-to-top:active {
   background-color: #435041; /* 更深、更飽和的 morandi-green-700 */
   box-shadow: 0 5px 10px -2px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
-  transform: translateY(0);
+  transform: translateY(0) !important;
 }
+
+
+
+/* 移除所有 focus 狀態的視覺效果 */
+.back-to-top:focus {
+  outline: none;
+}
+
+
+/* 針對觸控裝置的特殊處理 */
+@media (hover: none) and (pointer: coarse) {
+  /* 重置 hover 狀態，但不影響 active 狀態 */
+  .back-to-top:hover:not(:active) {
+    background-color: rgba(109, 123, 103, 0.6); /* 保持初始狀態 */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    transform: translateY(0);
+  }
+  
+  /* 確保 focus 狀態也不會改變外觀，但不影響 active 狀態 */
+  .back-to-top:focus:not(:active) {
+    background-color: rgba(109, 123, 103, 0.6);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    transform: translateY(0);
+  }
+}
+
+
+
+
+
+
+
+
 
 
 /* 按鈕隱藏時的樣式 */
@@ -1316,3 +1349,6 @@ function getLanguageClass(language) {
 </script>
 </body>
 </html>
+
+
+
