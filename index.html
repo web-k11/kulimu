@@ -693,25 +693,28 @@ function setupEventListeners() {
     }
   });
 
-  // 回到頂部按鈕
+
+// 回到頂部按鈕
 backToTop.addEventListener('click', (e) => {
   e.preventDefault();
+  
+  // 1. 強制讓按鈕進入「重置」樣式，覆蓋所有 `:active` 狀態
+  //    您原本的 CSS 已經定義了這個 class，它使用 !important 來確保覆蓋效果
+  backToTop.classList.add('back-to-top--reset');
+
+  // 2. 進行平滑滾動
   window.scrollTo({
     top: 0,
     behavior: 'smooth'
   });
-  
-  // 1. 立即移除焦點，這能解決大部分問題
-  backToTop.blur(); 
-  
-  // 2. 在按鈕被點擊後，新增一個類別來強制重設樣式
-  backToTop.classList.add('back-to-top--reset');
-  
-  // 3. 在短暫延遲後，移除這個類別，讓 CSS 動畫和懸停效果恢復正常
+
+  // 3. 在滾動結束後，移除「重置」class，讓 CSS 樣式恢復正常
+  //    使用 setTimeout 來確保在平滑滾動完成後才執行
   setTimeout(() => {
     backToTop.classList.remove('back-to-top--reset');
-  }, 100); // 100 毫秒的延遲足夠讓瀏覽器處理完按壓後的樣式
+  }, 500); // 這裡的延遲時間可以根據平滑滾動的長度微調
 });
+
 
 
   // 監聽滾動事件
