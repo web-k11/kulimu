@@ -686,6 +686,8 @@ function setupEventListeners() {
     });
   // 強制移除按鈕的焦點，讓它恢復初始狀態
   backToTop.blur(); 
+  setTimeout(() => {
+ }, 10); // 短暫延遲 10 毫秒
 });
 
   // 監聽滾動事件
@@ -1315,3 +1317,6 @@ function getLanguageClass(language) {
 </script>
 </body>
 </html>
+
+
+
