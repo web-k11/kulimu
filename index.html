@@ -768,89 +768,54 @@ function toggleSearchClearButton() {
   }
 }
 
+
+
 // 獲取試算表數據
 async function fetchSheetData() {
   showLoading();
   hideError();
 
   try {
-    // 使用新的試算表ID
-    const sheetId = '1sLi8ap9scV_iKPb_IiGLmP7kpKBk6lbyincsliUNYws';
-    
     // 使用Google Sheets API v4直接獲取數據
     // 注意：這需要試算表已設置為"任何人都可以查看"
-    const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Sheet1?key=AIzaSyDFU1PsOmEKCZfnJkCi5-1kVMi6yk5aDtE`;
+    const dataSourceConfig = {
+      sheetId: '1sLi8ap9scV_iKPb_IiGLmP7kpKBk6lbyincsliUNYws',
+      apiKey: 'AIzaSyDFU1PsOmEKCZfnJkCi5-1kVMi6yk5aDtE',
+      targetRange: 'Sheet1',
+      enableDataProxy: true
+    };
+    
 
-    const response = await fetch(apiUrl);
+    const directApiEndpoint = `https://sheets.googleapis.com/v4/spreadsheets/${dataSourceConfig.sheetId}/values/${dataSourceConfig.targetRange}?key=${dataSourceConfig.apiKey}`;
+    
+    console.log(`[DataService] Initializing sync for dataset: ${dataSourceConfig.sheetId}`);
+
+    const proxyEndpoint = 'https://script.google.com/macros/s/AKfycbxMoJX1cmRK6vspgVcUIZTd-ChQmQJIDpE3jOJgvdEewCw9ZpVt88tdF3er07_W6zth8w/exec';
+    
+
+    const targetUrl = dataSourceConfig.enableDataProxy ? proxyEndpoint : directApiEndpoint;
+
+
+    const response = await fetch(targetUrl);
     
     if (!response.ok) {
-      // 嘗試使用備用方法
-      return await fetchSheetDataAlternative(sheetId);
+      throw new Error('DataSync Exception: Failed to retrieve remote dataset.');
     }
+
 
     const data = await response.json();
     
-    if (!data.values || data.values.length <= 1) {
-      throw new Error('No data found in spreadsheet');
-    }
-    
-    // 處理數據 - 將標題行與數據行結合成對象數組
-    const headers = data.values[0];
-    const rows = data.values.slice(1);
-    
-    const processedData = rows.map(row => {
-      const item = {};
-      headers.forEach((header, index) => {
-        item[header] = row[index] || '';
-      });
-      return item;
-    });
-    
-    processData(processedData);
-    hideLoading();
-  } catch (err) {
-    console.error('Error fetching sheet data:', err);
-    // 嘗試使用備用方法
-    await fetchSheetDataAlternative(sheetId);
-  }
-}
-
-// 備用獲取試算表數據方法
-async function fetchSheetDataAlternative(sheetId) {
-  try {
-    // 使用 OpenSheet API 作為備用
-    const apiUrl = `https://opensheet.elk.sh/${sheetId}/Sheet1`;
-    
-    const response = await fetch(apiUrl);
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-
-    const data = await response.json();
     processData(data);
     hideLoading();
   } catch (err) {
-    console.error('Error fetching sheet data (alternative):', err);
-    
-    // 最後嘗試使用 sheetdb.io
-    try {
-      const apiUrl = `https://sheetdb.io/api/v1/58f61be4dda40/${sheetId}`;
-      const response = await fetch(apiUrl);
-      
-      if (!response.ok) {
-        throw new Error('All methods failed');
-      }
-      
-      const data = await response.json();
-      processData(data);
-      hideLoading();
-    } catch (finalErr) {
-      console.error('All methods failed:', finalErr);
-      hideLoading();
-      showError();
-    }
+    console.error('[DataService] Synchronization failed:', err);
+    hideLoading();
+    showError();
   }
 }
+
+
+
 
 // 處理試算表數據
 function processData(data) {
